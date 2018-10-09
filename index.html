@@ -13,9 +13,10 @@
   <body>
   <main>
 
-  <header class="bg-primary">
+  <header class="bg-primary" id="header">
     <h1 class="text-white text-center p-3">Cat card app</h1>
   </header>
+
   <section class="container">
     <h2>Cat card list</h2>
     <hr />
@@ -23,17 +24,11 @@
 
     </div>
     <div id="components" class="card-group col-md-6" >
-        <ajouteimage></ajouteimage>
-        <ajouteimage></ajouteimage>
-        <ajouteimage></ajouteimage>
-
-<!--<button v-on:click="add" ></button>-->
-      <button class="btn btn-lg btn-danger circle add" onclick="myFunction()"> </button>
+      <ajouteimage></ajouteimage>
+      <ajouteimage></ajouteimage>
+        <button class="btn btn-lg btn-danger circle add" @click="add('ajouteimage', '我是A')"> </button>
+        <component :is="item.component"  v-for="item in items"></component>
     </div>
-
-
-
-
 
   </section>
   <footer class="bg-light">
@@ -48,12 +43,8 @@
 
 <script src="lib/vue.js"></script>
 <script>
-    Vue.component('ajouteimage', {
-        data: function () {
-            return {
-                count: 0
-            }
-        },
+   const  ajouteimage=Vue.extend( {
+        props: ['text'],
         template: '     <div class="flipper mb-3 " ontouchstart="this.classList.toggle(\'hover\');">\n' +
         '            <div class="front card text-center shadow-sm">\n' +
         '              <img class="card-img-top" src="https://cataas.com/cat?width=250&height=200" alt="Cat image" width="250" height="200" />\n' +
@@ -70,60 +61,37 @@
         '                <button href="#" class="btn btn-primary card-link">Edit that cat</button>\n' +
         '              </div>\n' +
         '            </div>\n' +
-        '\n' +
         '          </div>'
-    })
+     });
+
     //初始化根实例
     new Vue({
             el: '#components',
 
-            data:{cat:"https://cataas.com/cat?width=250&height=200"},
+
+        data () {
+            return {
+                items: []
+            }
+        },
+        methods: {
+            add (name, text) {
+                this.items.push({
+                    component: name,
+                    // text: text
+                })
+
+
+            }
+        },
+        components: {
+            ajouteimage,
+        }
 
 
         }
 
     );
-
-    var fois=0
-    function myFunction(){
-        var oTest = document.getElementById("components");
-        var a = document.createElement("div");
-        // var btn=document.createElement("ajouteimage");
-        // console.info(btn);
-        // oTest.appendChild(btn);
-        var popContent = '<div class="flipper mb-3" ontouchstart="this.classList.toggle(\'hover\');">\n' +
-            '          <div class="front card text-center shadow-sm">\n' +
-            '            <img class="card-img-top" src="https://cataas.com/cat?width=250&height=200" ' +
-            'alt="Cat image" width="250" height="200"  />\n' +
-            '            <div class="card-body">\n' +
-            '              <h5 class="card-title">Random cat card</h5>\n' +
-            '            </div>\n' +
-            '          </div>\n' +
-            '          <div class="back card text-center shadow-sm">\n' +
-            '            <div class="card-body">\n' +
-            '              <h6 class="card-subtitle mb-2 text-muted">Random cat card</h6>\n' +
-            '              <p class="card-text">That card shows a random cat image.</p>\n' +
-            '            </div>\n' +
-            '            <div class="card-footer">\n' +
-            '              <button href="#" class="btn btn-primary card-link onclick="changeCode();">Edit that cat</button>\n' +
-            '            </div>\n' +
-            '          </div>\n' +
-            '        </div>';
-
-
-        a.innerHTML+=popContent;
-
-        document.getElementById("components").appendChild(a)
-        document.getElementById("img").src="https://cataas.com/cat?width=250&height=200?"+Math.random();
-
-
-
-
-    };
-    function changeCode(){
-        document.getElementsByTagName("img").src="https://cataas.com/cat?width=250&height=200?"+Math.random();  ·
-    }
-
 
 </script>
 
