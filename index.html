@@ -26,7 +26,10 @@
     <div id="components" class="card-group col-md-6" >
       <ajouteimage></ajouteimage>
       <ajouteimage></ajouteimage>
-        <button class="btn btn-lg btn-danger circle add" @click="add('ajouteimage', '我是A')"> </button>
+
+        <button class="btn btn-lg btn-danger circle add" onclick="model=null;window.event.returnValue=false;
+            window.location.href='cat-form.html';"> <i class="fas fa-plus"></i></button>
+      <!--<button class="btn btn-lg btn-danger circle add" @click="add('ajouteimage')"> <i class="fas fa-plus"></i></button>-->
         <component :is="item.component"  v-for="item in items"></component>
     </div>
 
@@ -40,14 +43,46 @@
 </main>
 </body>
 
+<script>
+    function getParams(key) {
+        var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return decodeURIComponent(r[2]);
+        }
+        return null;
+
+    };
+    model=getParams("model")
+    i=0
+    console.info(i)
+    console.log("titre:"+getParams("titre"));//输出titre
+    console.log("url:"+getParams("url"));//输出titre
+    console.log("discription:"+getParams("discription"));
+    console.log("model:"+getParams("model"));
+
+
+</script>
 
 <script src="lib/vue.js"></script>
 <script>
+
    const  ajouteimage=Vue.extend( {
-        props: ['text'],
+       props: ['text'],
+       data: function () {
+           return {
+               i: 0,
+               url:"https://cataas.com/cat?width=250&height=200"
+           }
+       },
+       methods: {
+           change () {
+            this.url="https://cataas.com/cat?width=250&height=200?"+Math.random()
+           }
+       },
         template: '     <div class="flipper mb-3 " ontouchstart="this.classList.toggle(\'hover\');">\n' +
         '            <div class="front card text-center shadow-sm">\n' +
-        '              <img class="card-img-top" src="https://cataas.com/cat?width=250&height=200" alt="Cat image" width="250" height="200" />\n' +
+        '              <img class="card-img-top" v-bind:src="url" alt="Cat image" width="250" height="200" />\n' +
         '              <div class="card-body">\n' +
         '                <h5 class="card-title">Random cat card</h5>\n' +
         '              </div>\n' +
@@ -58,7 +93,7 @@
         '                <p class="card-text">That card shows a random cat image.</p>\n' +
         '              </div>\n' +
         '              <div class="card-footer">\n' +
-        '                <button href="#" class="btn btn-primary card-link">Edit that cat</button>\n' +
+        '                <button v-on:click="change()" href="#" class="btn btn-primary card-link">Edit the image</button>\n' +
         '              </div>\n' +
         '            </div>\n' +
         '          </div>'
@@ -75,15 +110,33 @@
             }
         },
         methods: {
-            add (name, text) {
+            add (name) {
+                // console.log(model)
                 this.items.push({
                     component: name,
                     // text: text
                 })
 
 
-            }
+            },
         },
+        mounted:function () {
+
+                 if(model=="add"){
+                   // var num= parseInt(sessionStorage.getItem("num"));
+                     var num=sessionStorage.length;
+                   for(var i=0;i<num;i++)
+                   { this.items.push({
+                        component: "ajouteimage",
+                    })}
+
+
+                }
+
+
+        }
+
+        ,
         components: {
             ajouteimage,
         }
