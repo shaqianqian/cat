@@ -1,49 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>The cat card app</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel="stylesheet" href="main.css">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>The cat card app</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
 
-  </head>
-  <body>
-  <main>
+</head>
+<body>
+<main>
 
-  <header class="bg-primary" id="header">
-    <h1 class="text-white text-center p-3">Cat card app</h1>
-  </header>
+    <header class="bg-primary" id="header">
+        <h1 class="text-white text-center p-3">Cat card app</h1>
+    </header>
 
-  <section class="container">
-    <h2>Cat card list</h2>
-    <hr />
-    <div id="components-demo">
+    <section class="container">
+        <h2>Cat card list</h2>
+        <hr/>
+        <div id="components" class="card-group col-md-6">
 
-    </div>
-    <div id="components" class="card-group col-md-6" >
-      <ajouteimage></ajouteimage>
-      <ajouteimage></ajouteimage>
-
-        <button class="btn btn-lg btn-danger circle add" onclick="model=null;window.event.returnValue=false;
-            window.location.href='cat-form.html';"> <i class="fas fa-plus"></i></button>
-      <!--<button class="btn btn-lg btn-danger circle add" @click="add('ajouteimage')"> <i class="fas fa-plus"></i></button>-->
-        <component :is="item.component"  v-for="item in items"></component>
-    </div>
-
-  </section>
-  <footer class="bg-light">
-    <div class="container text-center">
-      <i class="far fa-copyright mr-1"></i><label>2018 - Lille 1</label>
-      <span class="small font-italic infos">No cat has been hurt during the development of this app.</span>
-    </div>
-  </footer>
+            <button class="btn btn-lg btn-danger circle add" onclick="model=null;window.event.returnValue=false;
+            window.location.href='cat-form.html';"><i class="fas fa-plus"></i></button>
+            <!--l'endroit ou on insere les templates-->
+            <component :is="item.component" :text="item.text" :url_modifie="item.url_modifie"
+                       :discription="item.discription" :url_image="item.url_image" v-for="item in items"></component>
+        </div>
+    </section>
+    <footer class="bg-light">
+        <div class="container text-center">
+            <i class="far fa-copyright mr-1"></i><label>2018 - Lille 1</label>
+            <span class="small font-italic infos">shaqianqian lille1 e-service(fi).</span>
+        </div>
+    </footer>
 </main>
 </body>
 
 <script>
+    //methode pour obtenir les parametres dans url
     function getParams(key) {
         var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
@@ -53,13 +51,12 @@
         return null;
 
     };
-    model=getParams("model")
-    i=0
-    console.info(i)
-    console.log("titre:"+getParams("titre"));//输出titre
-    console.log("url:"+getParams("url"));//输出titre
-    console.log("discription:"+getParams("discription"));
-    console.log("model:"+getParams("model"));
+    //pour obtenir la demande d'utilisateur
+    model = getParams("model");
+    // console.log("titre:" + getParams("titre"));//输出titre
+    // console.log("url:" + getParams("url"));//输出titre
+    // console.log("discription:" + getParams("discription"));
+    // console.log("model:" + getParams("model"));
 
 
 </script>
@@ -67,83 +64,93 @@
 <script src="lib/vue.js"></script>
 <script>
 
-   const  ajouteimage=Vue.extend( {
-       props: ['text'],
-       data: function () {
-           return {
-               i: 0,
-               url:"https://cataas.com/cat?width=250&height=200"
-           }
-       },
-       methods: {
-           change () {
-            this.url="https://cataas.com/cat?width=250&height=200?"+Math.random()
-           }
-       },
+    const ajouteimage = Vue.extend({
+
+        data: function () {
+            return {
+            }
+        },
+        props: ['text', 'discription', 'url_image', 'url_modifie'],
+        methods: {
+            change(modifie) {
+                // this.url="https://cataas.com/cat?width=250&height=200?"+Math.random();
+                window.event.returnValue = false;
+                window.location.href = "cat-form.html?model=" + modifie;
+
+            }
+        },
         template: '     <div class="flipper mb-3 " ontouchstart="this.classList.toggle(\'hover\');">\n' +
         '            <div class="front card text-center shadow-sm">\n' +
-        '              <img class="card-img-top" v-bind:src="url" alt="Cat image" width="250" height="200" />\n' +
+        '              <img class="card-img-top" v-bind:src="url_image" alt="Cat image" width="250" height="200" />\n' +
+
         '              <div class="card-body">\n' +
-        '                <h5 class="card-title">Random cat card</h5>\n' +
+        '                <h5 class="card-title">{{text}}</h5>\n' +
         '              </div>\n' +
         '            </div>\n' +
         '            <div class="back card text-center shadow-sm">\n' +
         '              <div class="card-body">\n' +
         '                <h6 class="card-subtitle mb-2 text-muted">Random cat card</h6>\n' +
-        '                <p class="card-text">That card shows a random cat image.</p>\n' +
+        '                <p class="card-text">{{discription}}</p>\n' +
         '              </div>\n' +
         '              <div class="card-footer">\n' +
-        '                <button v-on:click="change()" href="#" class="btn btn-primary card-link">Edit the image</button>\n' +
+        '                <a :href="url_modifie" class="btn btn-primary card-link">Edit the image</link>\n' +
         '              </div>\n' +
         '            </div>\n' +
         '          </div>'
-     });
+    });
 
     //初始化根实例
     new Vue({
             el: '#components',
 
 
-        data () {
-            return {
-                items: []
-            }
-        },
-        methods: {
-            add (name) {
-                // console.log(model)
-                this.items.push({
-                    component: name,
-                    // text: text
-                })
-
-
-            },
-        },
-        mounted:function () {
-
-                 if(model=="add"){
-                   // var num= parseInt(sessionStorage.getItem("num"));
-                     var num=sessionStorage.length;
-                   for(var i=0;i<num;i++)
-                   { this.items.push({
-                        component: "ajouteimage",
-                    })}
-
-
+            data() {
+                return {
+                    items: [],
                 }
+            },
+
+            methods: {
+                add(name, text) {
+                    // console.log(model)
+                    this.items.push({
+                        component: name,
+
+                    })
+
+
+                },
+            },
+        // quand on rentre a ce page, on peut desinner les images selon les donnees dans sessions
+            created: function () {
+                    var num = JSON.parse(sessionStorage.getItem('cards')).length;
+                    for (var i = 0; i < num; i++) {
+                        var id = JSON.parse(sessionStorage.getItem('cards'))[i].id;
+                        var titre = JSON.parse(sessionStorage.getItem('cards'))[i].titre;
+                        var discription = JSON.parse(sessionStorage.getItem('cards'))[i].discription;
+                        var url_image = JSON.parse(sessionStorage.getItem('cards'))[i].url;
+                        this.items.push({
+                            component: "ajouteimage",
+                            text: titre,
+                            discription: discription,
+                            url_image: url_image,
+                            url_modifie: "cat-form.html?model=modifie&titre=" + titre + "&discription=" + discription + "&url=" + url_image + "&id=" + id,
+
+
+                        })
+
+                    }
+
+
+            }
+
+            ,
+            components: {
+                ajouteimage,
+            }
 
 
         }
-
-        ,
-        components: {
-            ajouteimage,
-        }
-
-
-        }
-
     );
 
 </script>

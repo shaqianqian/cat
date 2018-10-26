@@ -2,120 +2,197 @@
 <html>
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>The cat card app</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-    crossorigin="anonymous">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-    crossorigin="anonymous">
-  <link rel="stylesheet" href="main.css">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>The cat card app</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
 </head>
 
-<body >
-  <main id="app">
+<body>
+<main id="app">
     <header class="bg-primary">
-      <a href="index.html" class="btn btn-primary back-btn"><i class="fas fa-caret-left mr-2"></i>Back</a>
-      <h1 class="text-white text-center p-3">Cat card app</h1>
+        <button v-on:click="back()" type="submit" class="btn btn-primary back-btn"><i
+                class="fas fa-caret-left mr-2"></i>Back
+        </button>
+        <h1 class="text-white text-center p-3">Cat card app</h1>
     </header>
     <section class="container">
-      <h2>Cat card form</h2>
-      <hr />
-      <form novalidate class="was-validated" >
-        <div class="form-group row">
-          <label  for="cardTitle" class="col-sm-2 col-form-label">Card title</label>
-          <input id="titre" type="text" required class="form-control col-sm-10" id="cardTitle" placeholder="Card title">
-          <div class="invalid-feedback offset-md-2 col-sm-10">
-            That field is required. Please provide a value.
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="cardImage" class="col-sm-2 col-form-label">Card image URL</label>
-          <input id="urlimage" type="url" required class="form-control col-sm-10" id="cardImage" placeholder="Card image URL">
-          <div class="invalid-feedback offset-md-2 col-sm-10">
-            That field is required and attempt an URL as value. Please provide a value that respect URL format.
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="cardDescription" class="col-sm-2 col-form-label">Card description</label>
-          <textarea id="discription" class="form-control col-sm-10" id="cardDescription"></textarea>
-        </div>
-        <!--<button type="submit" class="btn btn-danger">Delete</button>-->
-        <button type="submit" class="btn btn-danger" v-on:click="supprime()">Delete</button>
-        <button type="submit" class="btn btn-primary" v-on:click="conserve()">Save</button>
-      </form>
+        <h2>Cat card form</h2>
+        <hr/>
+        <form novalidate class="was-validated">
+            <div class="form-group row">
+                <label for="titre" class="col-sm-2 col-form-label">Card title</label>
+                <input id="titre" type="text" required class="form-control col-sm-10" placeholder="Card title">
+                <div class="invalid-feedback offset-md-2 col-sm-10">
+                    That field is required. Please provide a value.
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="urlimage" class="col-sm-2 col-form-label">Card image URL</label>
+                <input id="urlimage" type="url" required class="form-control col-sm-10" placeholder="Card image URL">
+                <div class="invalid-feedback offset-md-2 col-sm-10">
+                    That field is required and attempt an URL as value. Please provide a value that respect URL format.
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="discription" class="col-sm-2 col-form-label">Card description</label>
+                <textarea id="discription" class="form-control col-sm-10"></textarea>
+            </div>
+            <!--<button type="submit" class="btn btn-danger">Delete</button>-->
+            <button type="submit" class="btn btn-danger" v-on:click="supprime()">Delete</button>
+            <button type="submit" class="btn btn-primary" v-on:click="conserve()">Save</button>
+        </form>
     </section>
     <footer class="bg-light">
-      <div class="container text-center">
-        <i class="far fa-copyright mr-1"></i><label>2018 - Lille 1</label>
-        <span class="small font-italic infos">No cat has been hurt during the development of this app.</span>
-      </div>
+        <div class="container text-center">
+            <i class="far fa-copyright mr-1"></i><label>2018 - Lille 1</label>
+            <span class="small font-italic infos">No cat has been hurt during the development of this app.</span>
+        </div>
     </footer>
-  </main>
+</main>
 </body>
-<script src="lib/vue.js"  type="text/javascript"></script>
+<script src="lib/vue.js" type="text/javascript"></script>
+
 <script>
 
 
     new Vue({
-        el: '#app' ,
-        data () {
-            return {
-               titre:null,
-                url:"index.html",
-                urlimage:null,
-                discripton:null,
-            }
-        },
-        methods:{
-            conserve: function() {
-                // if( sessionStorage.getItem("num")==null)
-                // {sessionStorage.setItem("num",1);}
-                // else{
-                //     sessionStorage.setItem("num",parseInt(sessionStorage.getItem("num"))+1)
-                //
-                // }
-
-                this.titre=document.getElementById("titre").value;
-                this.urlimage=document.getElementById("urlimage").value;
-                this.discripton=document.getElementById("discription").value
-                sessionStorage.setItem(this.titre,JSON.stringify({
-                    url:this.urlimage,
-                    discription:this.discripton
-                }));
-
-             // this.url=this.url+"?model=add&titre="+this.titre+"&"+"url="+this.urlimage+"&"+"discription="+this.discripton
-                this.url=this.url+"?model=add";
-                window.event.returnValue=false;
-                window.location.href=this.url;
-       },
-            supprime: function() {
-                // if( sessionStorage.getItem("num")==null)
-                // {sessionStorage.setItem("num",1);}
-                // else{
-                //     sessionStorage.setItem("num",parseInt(sessionStorage.getItem("num"))+1)
-                //
-                // }
-                window.event.returnValue=false;
-
-                this.titre=document.getElementById("titre").value;
-                this.urlimage=document.getElementById("urlimage").value;
-                this.discripton=document.getElementById("discription").value
-                sessionStorage.removeItem(this.titre)
-
-                // this.url=this.url+"?model=add&titre="+this.titre+"&"+"url="+this.urlimage+"&"+"discription="+this.discripton
-                this.url=this.url+"?model=add";
-                window.location.href=this.url;
+            el: '#app',
+            data() {
+                return {
+                    titre: null,
+                    url: "index.html",
+                    urlimage: null,
+                    discription: null,
+                }
             },
 
 
+            methods: {
+               //rien a changer
+                back: function () {
+                    const cards = JSON.parse(sessionStorage.getItem('cards'));
+                    sessionStorage.setItem('cards', JSON.stringify(cards));
+                    //rentre a homepage
+                    window.event.returnValue = false;
+                    window.location.href = this.url;
+                },
+             //supprimer les informations de cet image de session
+                supprime: function () {
+                    const cards = JSON.parse(sessionStorage.getItem('cards'));
+                    const idxToDelete = cards.findIndex(c => c.id == modifie_id);
+                    cards.splice(idxToDelete, 1);
+                    sessionStorage.setItem('cards', JSON.stringify(cards));
+
+               //rentre a homepage
+                    window.event.returnValue = false;
+                    window.location.href = this.url;
+                },
+             //ajoute un nouveau image dans session
+                conserve: function () {
+                    if (model == "modifie") {
+                        const cards = JSON.parse(sessionStorage.getItem('cards'));
+                        const idxToUpdate = cards.findIndex(c => c.id == modifie_id);
+                        this.titre = document.getElementById("titre").value;
+                        this.urlimage = document.getElementById("urlimage").value;
+                        cards[idxToUpdate] = {
+                            id: idxToUpdate,
+                            titre: this.titre,
+                            url: this.urlimage,
+                            discription: document.getElementById("discription").value
+
+                        };
+                        sessionStorage.setItem('cards', JSON.stringify(cards));
+                    }
+
+                    else {
+                        //l'utilisateur veut ajouter une nouvelle image
+                        this.titre = document.getElementById("titre").value;
+                        this.urlimage = document.getElementById("urlimage").value;
+                        this.discripton = document.getElementById("discription").value;
+
+                        const cards = JSON.parse(sessionStorage.getItem('cards'));
+                        if (cards == null) {
+                            //si il ny a pas une image dans la session
+                            sessionStorage.setItem('cards',
+                                JSON.stringify([{
+                                    id: 1,
+                                    titre: this.titre,
+                                    url: this.urlimage,
+                                    discription: this.discripton
+                                }
 
 
-        }
+                                ])
+                            );
+                        }
+                        else {
+                            //si il y a encore des images dans le session
+                            const cards = JSON.parse(sessionStorage.getItem('cards'));
+                            const maxId = Math.max(...cards.map(c => c.id));
+                            cards.push({
+                                id: maxId + 1,
+                                titre: this.titre,
+                                url: this.urlimage,
+                                discription: this.discripton
+                            });
+                            sessionStorage.setItem('cards', JSON.stringify(cards));
+
+                        }
+
+
+                    }      //rentre a homepage
+                    window.event.returnValue = false;
+                    window.location.href = this.url;
+
+
+                },
+
+
+            }
         }
     )
 
 </script>
+<script>
+    function getParams(key) {
+        var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return decodeURIComponent(r[2]);
+        }
+        return null;
 
+    };
+    model = getParams("model")
+    // modifie_id = 0
+    // console.log("id:" + getParams("id"));//输出titre
+    // console.log("titre:" + getParams("titre"));//输出titre
+    // console.log("url:" + getParams("url"));//输出titre
+    // console.log("discription:" + getParams("discription"));
+    // console.log("model:" + getParams("model"));
+//si le model est modifie, affichie les anciens parametres dans les champs, sinon affiche les champes vide.
+    if (model == "modifie") {
+        var id = getParams("id");
+
+        var discription = getParams("discription");
+        var model = getParams("model");
+        const cards = JSON.parse(sessionStorage.getItem('cards'));
+        document.getElementById('titre').value = getParams("titre");
+        document.getElementById('urlimage').value = getParams("url");
+        document.getElementById('discription').innerHTML = discription;
+        modifie_id = parseInt(id)
+
+
+    }
+
+
+</script>
 </html>
